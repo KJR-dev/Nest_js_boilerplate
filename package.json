@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "nest build && pnpm sentry:sourcemaps",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "NODE_ENV=development nodemon --watch src --exec \"nest start --watch\"",
@@ -17,12 +17,16 @@
     "test:watch": "NODE_ENV=test jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org personal-qdi --project node-nestjs ./dist && sentry-cli sourcemaps upload --org personal-qdi --project node-nestjs ./dist"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
+    "@sentry/cli": "^2.58.5",
+    "@sentry/nestjs": "^10.46.0",
+    "@sentry/profiling-node": "^10.46.0",
     "dotenv": "^17.3.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
