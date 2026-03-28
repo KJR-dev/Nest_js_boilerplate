@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup';
+import { SentryModule } from '@sentry/nestjs/setup';
 import { APP_FILTER } from '@nestjs/core';
+import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
 
 @Module({
   imports: [
@@ -13,10 +14,13 @@ import { APP_FILTER } from '@nestjs/core';
   providers: [
     AppService,
     {
+      // GlobalExceptionFilter extends SentryGlobalFilter, so Sentry
+      // error capture + our custom JSON response shape are both applied.
       provide: APP_FILTER,
-      useClass: SentryGlobalFilter,
+      useClass: GlobalExceptionFilter,
     },
-    // ..other providers
+    // ...other providers
   ],
 })
 export class AppModule {}
+
