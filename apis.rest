@@ -1,0 +1,16 @@
+// Base URL
+@Base_Url = http://localhost:3000
+
+### Get Request (Health Check)
+GET {{Base_Url}}
+
+### Post Request
+POST {{Base_Url}}/auth/register 
+Content-Type: application/json
+
+//Body payload
+{
+  "name": "Jitendraa Sahoo",
+  "email": "Test5@gmail.com",
+  "password": "test@1234"
+}
