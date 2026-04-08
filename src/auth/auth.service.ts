@@ -115,7 +115,7 @@ export class AuthService {
   // ── Logout ──────────────────────────────────────────────────────────────────
   async logout(userId: number) {
     await this.userService.clearRefreshToken(userId);
-    return { message: 'Logged out successfully' };
+    return;
   }
 
   // ── Profile ─────────────────────────────────────────────────────────────────

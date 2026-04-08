@@ -70,8 +70,7 @@ export class AuthController {
     });
 
     return {
-      message: 'Login successful',
-      data,
+      message: 'Login successful'
     };
   }
 
@@ -79,19 +78,39 @@ export class AuthController {
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Refresh access & refresh tokens' })
-  async refresh(@Req() req: Request) {
-    return this.authService.refreshTokens(req.cookies.refreshToken);
+  async refresh(@Req() req: Request,@Res({passthrough:true}) res:Response) {
+    const data = await this.authService.refreshTokens(req.cookies.refreshToken);
+    res.cookie('accessToken', data.accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+    });
+
+    res.cookie('refreshToken', data.refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+    });
+
+    return {
+      message: 'Login successful'
+    };
   }
 
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Logout – invalidates refresh token' })
-  async logout(@CurrentUser() user: JwtPayload) {
-    return this.authService.logout(user.id);
+  async logout(@CurrentUser() user: JwtPayload, @Res({passthrough:true}) res:Response) {
+    await this.authService.logout(user.id);
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken');
+    return {
+      message: 'Logout successful',
+    };
   }
 
-  @Get('profile')
+  @Get('self')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get current user profile' })
   async getProfile(@CurrentUser() user: JwtPayload) {
