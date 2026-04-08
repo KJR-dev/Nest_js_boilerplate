@@ -5,12 +5,22 @@
 GET {{Base_Url}}
 
 ### Post Request
-POST {{Base_Url}}/auth/register 
+POST {{Base_Url}}/auth/signup 
 Content-Type: application/json
 
 //Body payload
 {
   "name": "Jitendraa Sahoo",
-  "email": "Test5@gmail.com",
+  "email": "Test10@gmail.com",
+  "password": "test@1234"
+}
+
+### Login Request
+POST {{Base_Url}}/auth/login 
+Content-Type: application/json
+
+//Body payload
+{
+  "email": "Test10@gmail.com",
   "password": "test@1234"
 }

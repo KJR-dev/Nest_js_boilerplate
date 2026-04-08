@@ -11,7 +11,7 @@ export class LoginUserDto {
     description: 'Name of the entity',
     format: 'email',
   })
-  readonly name: string;
+  readonly email: string;
 
   @IsNotEmpty()
   @IsString()

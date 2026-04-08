@@ -7,13 +7,14 @@ import { LoginUserDto } from './dto/LginUser.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('register')
+  @Post('signup')
   async register(@Body() registerUserDTO: RegisterUserDto) {
     return this.authService.register(registerUserDTO);
   }
 
-  @Get('login')
+  @Post('login')
   async login(@Body() loginUserData: LoginUserDto) {
-    
+    const token=this.authService.login(loginUserData);
+    return token;
   }
 }
